@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandira Furniture - Premium Furniture Shop</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#3176FF',secondary:''},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .banner-slide {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+        .banner-slide.active {
+            opacity: 1;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .category-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+        }
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+        .chat-bubble {
+            transition: transform 0.3s ease;
+        }
+        .chat-bubble:hover {
+            transform: scale(1.05);
+        }
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .custom-checkbox {
+            position: relative;
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        .custom-checkbox input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .custom-checkbox input:checked ~ .checkmark {
+            background-color: #3176FF;
+            border-color: #3176FF;
+        }
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+        .custom-checkbox input:checked ~ .checkmark:after {
+            display: block;
+        }
+        .custom-checkbox .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 5px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+        .chat-window {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .chat-window.open {
+            max-height: 400px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header Section -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-white bg-opacity-95 shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="#" class="text-3xl font-['arrivals'] text-primary">Mandira Furniture</a>
+            
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-gray-800 font-medium hover:text-primary transition-colors">Home</a>
+                <a href="#new-arrivals" class="text-gray-800 font-medium hover:text-primary transition-colors">Shop</a>
+                <a href="#featured-categories" class="text-gray-800 font-medium hover:text-primary transition-colors">Categories</a>
+                <a href="#contact-us" class="text-gray-800 font-medium hover:text-primary transition-colors">Contact Us</a>
+            </nav>
+            
+            <div class="flex items-center space-x-4">
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="py-2 pl-10 pr-4 w-40 lg:w-64 rounded-full bg-gray-100 border-none focus:ring-2 focus:ring-primary focus:outline-none text-sm">
+                    <div class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-search-line"></i>
+                    </div>
+                </div>
+                
+                <div class="relative w-10 h-10 flex items-center justify-center cursor-pointer hover:text-primary transition-colors">
+                    <i class="ri-shopping-cart-2-line text-xl"></i>
+                    <span class="absolute -top-1 -right-1 bg-primary text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">3</span>
+                </div>
+                
+                <div class="w-10̃ h-10 flex items-center justify-center cursor-pointer hover:text-primary transition-colors">
+                    <i class="ri-user-line text-xl"></i>
+                </div>
+                
+                <div class="md:hidden w-10 h-10 flex items-center justify-center cursor-pointer">
+                    <i class="ri-menu-line text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner Section -->
+    <section class="relative h-[600px] mt-16 overflow-hidden">
+        <div class="banner-container relative w-full h-full">
+            <div class="banner-slide active" style="background-image: url('https://ik.imagekit.io/70al5xvi0/Furniture.png')">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+                <div class="container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-xl text-white">
+                        <h1 class="text-5xl font-bold mb-4">Discover Your Next Favorite Furniture</h1>
+                        <p class="text-lg mb-8">Explore our curated collection of bestsellers, modern, and futuristic furnitures at Mandira Furniture.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banner-slide" style="background-image: url('https://ik.imagekit.io/70al5xvi0/image%20(1).jpg')">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+                <div class="container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-xl text-white">
+                        <h1 class="text-5xl font-bold mb-4">Premium Furniture Collection</h1>
+                        <p class="text-lg mb-8">Elevate your comfort experience with our premium furniture products.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banner-slide" style="background-image: url('https://ik.imagekit.io/70al5xvi0/image%20(2).jpg')">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+                <div class="container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-xl text-white">
+                        <h1 class="text-5xl font-bold mb-4">Unleash Your Creativity</h1>
+                        <p class="text-lg mb-8">Find the perfect art supplies for your next masterpiece at Mandira Furniture.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="banner-slide" style="background-image: url('https://ik.imagekit.io/70al5xvi0/image%20(3).jpg')">
+                <div class="absolute inset-0 bg-gradient-to-r from-primary/40 to-transparent"></div>
+                <div class="container mx-auto px-4 h-full flex items-center">
+                    <div class="max-w-xl text-white">
+                        <h1 class="text-5xl font-bold mb-4">Office Equipment Essentials</h1>
+                        <p class="text-lg mb-8">Upgrade your workspace with our premium office furnitures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 focus:outline-none banner-dot active" data-index="0"></button>
+            <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 focus:outline-none banner-dot" data-index="1"></button>
+            <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 focus:outline-none banner-dot" data-index="2"></button>
+            <button class="w-3 h-3 rounded-full bg-white bg-opacity-50 focus:outline-none banner-dot" data-index="3"></button>
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section id="featured-categories" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">Featured Categories</h2>
+                <p class="text-gray-600">Explore our wide range of products</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="category-card glass-card rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://ik.imagekit.io/70al5xvi0/Furniture.png" alt="Furnitures Category" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Books</h3>
+                        <p class="text-gray-600 mb-4">Discover our collection of bestsellers, classics, and hidden gems</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">1,248 items</span>
+                            <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                                Browse <i class="ri-arrow-right-line ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card glass-card rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://ik.imagekit.io/70al5xvi0/image%20(1).jpg?updatedAt=1769692562093" alt="Stationery Category" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Stationery</h3>
+                        <p class="text-gray-600 mb-4">Premium notebooks, pens, and writing accessories</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">856 items</span>
+                            <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                                Browse <i class="ri-arrow-right-line ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card glass-card rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://ik.imagekit.io/70al5xvi0/image%20(3).jpg?updatedAt=1769692897567" alt="Art Supplies Category" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Art Supplies</h3>
+                        <p class="text-gray-600 mb-4">Professional-grade paints, brushes, and canvases</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">624 items</span>
+                            <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                                Browse <i class="ri-arrow-right-line ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="category-card glass-card rounded-lg overflow-hidden shadow-md">
+                    <div class="h-48 overflow-hidden">
+                        <img src="https://ik.imagekit.io/70al5xvi0/image%20(2).jpg?updatedAt=1769692603683" alt="Office Equipment Category" class="w-full h-full object-cover object-top transition-transform duration-500 hover:scale-110">
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Office Equipment</h3>
+                        <p class="text-gray-600 mb-4">Ergonomic desk accessories and professional supplies</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-500">432 items</span>
+                            <a href="#" class="text-primary font-medium flex items-center hover:underline">
+                                Browse <i class="ri-arrow-right-line ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals Section -->
+    <section id="new-arrivals" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-12">
+                <div>
+                    <h2 class="text-3xl font-bold mb-2">New Arrivals</h2>
+                    <p class="text-gray-600">Check out our latest products</p>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <button id="prev-btn" class="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors">
+                        <i class="ri-arrow-left-s-line text-xl"></i>
+                    </button>
+                    <button id="next-btn" class="w-10 h-10 rounded-full bg-white shadow-md flex items-center justify-center hover:bg-gray-100 transition-colors">
+                        <i class="ri-arrow-right-s-line text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="relative overflow-hidden">
+                <div id="products-container" class="flex space-x-6 transition-transform duration-500">
+                    <!-- Product 1 -->
+                    <div class="product-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://ik.imagekit.io/70al5xvi0/image%20(2).jpg?updatedAt=1769692603683" alt="The Silent Echo" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">The Silent Echo</h3>
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">New</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">By Emily Richardson</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">Nrs. 999/-</span>
+                                <button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="product-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://ik.imagekit.io/70al5xvi0/Furniture.png?updatedAt=1769692074706" alt="Artisan Leather Journal" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">Artisan Leather Journal</h3>
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">New</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">Handcrafted Premium</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">Nrs. 1590/-</span>
+                                <button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="product-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://ik.imagekit.io/70al5xvi0/image%20(1).jpg?updatedAt=1769692562093" alt="Professional Watercolor Set" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">Professional Watercolor Set</h3>
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">New</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">24 Premium Colors</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">Nrs. 1990/</span>
+                                <button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="product-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://ik.imagekit.io/70al5xvi0/image%20(5).jpg?updatedAt=1748009128510" alt="Ergonomic Desk Organizer" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">Ergonomic Desk Organizer</h3>
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">New</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">Bamboo & Aluminum</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">2249/-</span>
+                                <button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 5 -->
+                    <div class="product-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://ik.imagekit.io/70al5xvi0/Furniture.png?updatedAt=1769692074706" alt="Luxury Fountain Pen" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">Luxury Fountain Pen</h3>
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">New</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">14K Gold Nib</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">Nrs. 9950/-</span>
+                                <button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 6 -->
+                    <div class="product-card flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="h-64 overflow-hidden">
+                            <img src="https://public.readdy.ai/ai/img_res/fff5dc7e7a95db7c8a59089164092d92.jpg" alt="The Midnight Library" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-4">
+                            <div class="flex justify-between items-start mb-2">
+                                <h3 class="text-lg font-semibold">The Midnight Library</h3>
+                                <span class="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">New</span>
+                            </div>
+                            <p class="text-gray-600 text-sm mb-3">By Matt Haig</p>
+                            <div class="flex justify-between items-center">
+                                <span class="text-lg font-bold">Nrs. 3950/-</span>
+                                <button class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                                    <i class="ri-shopping-cart-line"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl overflow-hidden">
+                <div class="md:w-1/2 p-10 md:p-16">
+                    <span class="inline-block px-4 py-1 bg-primary/20 text-primary font-medium rounded-full text-sm mb-6">Limited Time Offer</span>
+                    <h2 class="text-4xl font-bold mb-4">25% Off All Bestsellers</h2>
+                    <p class="text-gray-600 mb-8 text-lg">Discover our curated collection of bestselling books at special prices. Limited stock available.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <button class="bg-primary text-white px-8 py-3 rounded-button font-semibold hover:bg-primary/90 transition-colors shadow-md whitespace-nowrap">Shop Now</button>
+                        <button class="bg-white text-primary border border-primary px-8 py-3 rounded-button font-semibold hover:bg-gray-50 transition-colors shadow-sm whitespace-nowrap">Learn More</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://public.readdy.ai/ai/img_res/683cadbce9e27d6086b36a1597f805b3.jpg" alt="Bestsellers Collection" class="w-full h-full object-cover object-top">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-2">Visit Our Store</h2>
+                <p class="text-gray-600">Find us at Pokhara-26, Kaski</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="relative h-[400px]">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3519.715437053959!2d84.0363027!3d28.1844512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399597278df94115%3A0x2ced98c75a78dadd!2sApollo%20Dental%20Care!5e0!3m2!1sen!2snp!4v1716456781231!5m2!1sen!2snp" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        class="w-full h-full object-cover">
+                    </iframe>
+                    <div class="absolute bottom-0 left-0 w-full md:w-auto md:left-8 md:bottom-8">
+                        <div class="glass-card p-6 md:p-8 rounded-t-xl md:rounded-xl">
+                            <h3 class="text-xl font-semibold mb-4">Corona Books</h3>
+                            <div class="space-y-3">
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 flex items-center justify-center text-primary mt-0.5">
+                                        <i class="ri-map-pin-line"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="font-medium">Address</p>
+                                        <p class="text-gray-600">Budibazar, Pokhara-26, Kaski, Nepal</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 flex items-center justify-center text-primary mt-0.5">
+                                        <i class="ri-time-line"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="font-medium">Opening Hours</p>
+                                        <p class="text-gray-600">Mon-Sat: 7:00 AM - 8:00 PM</p>
+                                        <p class="text-gray-600">Sunday: 9:00 AM - 6:00 PM</p>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 flex items-center justify-center text-primary mt-0.5">
+                                        <i class="ri-phone-line"></i>
+                                    </div>
+                                    <div class="ml-3">
+                                        <p class="font-medium">Contact</p>
+                                        <p class="text-gray-600">+977 98560 33105</p>
+                                        <p class="text-gray-600">info@coronabooks.com.np</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="mt-6 bg-primary text-white px-6 py-2 rounded-button font-medium hover:bg-primary/90 transition-colors w-full whitespace-nowrap">Get Directions</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl font-bold mb-4">Subscribe to Our Newsletter</h2>
+                <p class="text-gray-600 mb-8">Stay updated with our latest arrivals, exclusive offers, and literary events.</p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 max-w-xl mx-auto">
+                    <input type="email" placeholder="Your email address" class="flex-grow px-4 py-3 rounded-button bg-gray-100 border-none focus:ring-2 focus:ring-primary focus:outline-none">
+                    <button class="bg-primary text-white px-8 py-3 rounded-button font-semibold hover:bg-primary/90 transition-colors whitespace-nowrap">Subscribe</button>
+                </div>
+                
+                <div class="mt-4 flex items-center justify-center">
+                    <label class="flex items-center text-gray-600 text-sm cursor-pointer">
+                        <span class="custom-checkbox">
+                            <input type="checkbox" class="hidden">
+                            <span class="checkmark"></span>
+                        </span>
+                        I agree to receive marketing emails from Corona Books
+                    </label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact-us" class="bg-gray-900 text-white pt-16 pb-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                <div>
+                    <a href="#" class="text-3xl font-['arrivals'] text-white mb-6 block">Corona Books</a>
+                    <p class="text-gray-400 mb-6">Your premier destination for books, stationery, art supplies, and office equipment in Pokhara.</p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/watch?v=zjm2MRV242U&t=24s" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-facebook-fill"></i>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=zjm2MRV242U&t=24s" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-instagram-line"></i>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=zjm2MRV242U&t=24s" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-twitter-x-line"></i>
+                        </a>
+                        <a href="https://www.youtube.com/watch?v=zjm2MRV242U&t=24s" target="_blank" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="ri-pinterest-line"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Home</a></li>
+                        <li><a href="#new-arrivals" class="text-gray-400 hover:text-white transition-colors">Shop</a></li>
+                        <li><a href="#featured-categories" class="text-gray-400 hover:text-white transition-colors">Categories</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#contact-us" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Customer Service</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">My Account</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Track Order</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Shipping Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Returns & Exchanges</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-lg font-semibold mb-6">Contact Us</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-map-pin-line"></i>
+                            </div>
+                            <span class="ml-3 text-gray-400">Budibazar, Pokhara-26, Kaski, Nepal</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-phone-line"></i>
+                            </div>
+                            <span class="ml-3 text-gray-400">+977 98560 33105</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-mail-line"></i>
+                            </div>
+                            <span class="ml-3 text-gray-400">info@coronabooks.com.np</span>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-5 h-5 flex items-center justify-center text-gray-400 mt-0.5">
+                                <i class="ri-time-line"></i>
+                            </div>
+                            <div class="ml-3 text-gray-400">
+                                <p>Mon-Sat: 7:00 AM - 8:00 PM</p>
+                                <p>Sunday: 7:00 AM - 6:00 PM</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 Corona Books. All rights reserved.</p>
+                    
+                    <div class="flex items-center space-x-4">
+                        <span class="text-gray-400 text-sm">Payment Methods:</span>
+                        <div class="flex space-x-3">
+                            <div class="w-8 h-8 flex items-center justify-center">
+                                <i class="ri-visa-fill text-xl"></i>
+                            </div>
+                            <div class="w-8 h-8 flex items-center justify-center">
+                                <i class="ri-mastercard-fill text-xl"></i>
+                            </div>
+                            <div class="w-8 h-8 flex items-center justify-center">
+                                <i class="ri-paypal-fill text-xl"></i>
+                            </div>
+                            <div class="w-8 h-8 flex items-center justify-center">
+                                <i class="ri-apple-fill text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="developer-credit">
+                <div class="ml-3 text-gray-500">
+                </div>
+ <div class="flex justify-center mt-12">
+        <p class="text-orange-500 text-sm">
+            Developed by: 9856020179
+            </div>
+        </div>
+    </footer>
+
+    <!-- Live Chat Widget -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <button id="chat-toggle" class="chat-bubble bg-primary text-white w-16 h-16 rounded-full shadow-lg flex items-center justify-center">
+            <i class="ri-customer-service-2-line text-2xl"></i>
+        </button>
+        
+        <div id="chat-window" class="chat-window bg-white rounded-xl shadow-xl w-80 overflow-hidden absolute bottom-20 right-0">
+            <div class="bg-primary text-white p-4">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mr-3">
+                            <i class="ri-customer-service-2-line text-xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-medium">Customer Support</h3>
+                            <div class="flex items-center text-xs">
+                                <span class="w-2 h-2 bg-green-400 rounded-full mr-2"></span>
+                                <span>Online</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="close-chat" class="w-8 h-8 flex items-center justify-center hover:bg-white/10 rounded-full">
+                        <i class="ri-close-line text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="h-80 p-4 overflow-y-auto bg-gray-50">
+                <div class="flex justify-start mb-4">
+                    <div class="bg-white rounded-lg rounded-tl-none p-3 shadow-sm max-w-[80%]">
+                        <p class="text-gray-700">All agents are offline, Plz call 9856033105</p>
+                        <span class="text-xs text-gray-500 mt-1 block">See you soon...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t">
+                <div class="flex items-center">
+                    <input type="text" placeholder="Type your message..." class="flex-grow px-4 py-2 rounded-full bg-gray-100 border-none focus:ring-2 focus:ring-primary focus:outline-none text-sm">
+                    <button class="ml-2 w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary/90 transition-colors">
+                        <i class="ri-send-plane-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banner Slideshow
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.banner-slide');
+        const dots = document.querySelectorAll('.banner-dot');
+        
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('bg-white', 'bg-opacity-100'));
+            dots.forEach(dot => dot.classList.add('bg-white', 'bg-opacity-50'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.remove('bg-opacity-50');
+            dots[index].classList.add('bg-opacity-100');
+            
+            currentSlide = index;
+        }
+        
+        function nextSlide() {
+            let nextIndex = (currentSlide + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+        
+        // Initialize slideshow
+        setInterval(nextSlide, 5000);
+        
+        // Add click events to dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showSlide(index);
+            });
+        });
+        
+        // Products Carousel
+        const container = document.getElementById('products-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const productWidth = 280; // Width of product card + margin
+        let scrollPosition = 0;
+        
+        nextBtn.addEventListener('click', () => {
+            scrollPosition += productWidth * 3;
+            if (scrollPosition > productWidth * 3) {
+                scrollPosition = productWidth * 3;
+            }
+            container.style.transform = `translateX(-${scrollPosition}px)`;
+        });
+        
+        prevBtn.addEventListener('click', () => {
+            scrollPosition -= productWidth * 3;
+            if (scrollPosition < 0) {
+                scrollPosition = 0;
+            }
+            container.style.transform = `translateX(-${scrollPosition}px)`;
+        });
+        
+        // Live Chat Toggle
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatWindow = document.getElementById('chat-window');
+        const closeChat = document.getElementById('close-chat');
+        
+        chatToggle.addEventListener('click', () => {
+            chatWindow.classList.toggle('open');
+        });
+        
+        closeChat.addEventListener('click', () => {
+            chatWindow.classList.remove('open');
+        });
+
+        // Smooth Scroll for Navigation Links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
